@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useGuest } from "@/hooks/useGuest";
-import { generateCalendarUrl, cn } from "@/lib/utils";
-import { CalendarPlus, MapPin } from "lucide-react";
-
-const mapsUrl = "https://www.google.com/maps/search/?api=1&query=-17.386160,-66.118604";
+import { generateCalendarUrl } from "@/lib/utils";
+import { EventTicketModal } from "@/components/landing/EventTicketModal";
 
 export function RSVPForm() {
   const [name, setName] = useState("");
+  const [ticketOpen, setTicketOpen] = useState(false);
   const { isLoading, error, registeredGuest, submitRsvp } = useGuest();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -18,50 +17,48 @@ export function RSVPForm() {
     await submitRsvp(name);
   }
 
+  // Se abre solo apenas el registro fue exitoso
+  useEffect(() => {
+    if (registeredGuest) setTicketOpen(true);
+  }, [registeredGuest]);
+
   if (registeredGuest) {
     const folioFormateado = String(registeredGuest.id).padStart(4, "0");
     return (
-      <div className="flex w-full max-w-sm flex-col items-center text-center">
-        <span className="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500">
-          Expediente asignado
-        </span>
+      <>
+        <div className="flex w-full max-w-sm flex-col items-center text-center">
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500">
+            Expediente asignado
+          </span>
 
-        <p className="mt-4 font-typewriter text-3xl uppercase tracking-widest text-zinc-900 md:text-4xl">
-          No. {folioFormateado}
-        </p>
+          <p className="mt-4 font-typewriter text-3xl uppercase tracking-widest text-zinc-900 md:text-4xl">
+            No. {folioFormateado}
+          </p>
 
-        <p className="mt-4 font-serif italic text-zinc-600">
-          Su presencia ha quedado registrada en el expediente, {registeredGuest.name}.
-        </p>
+          <p className="mt-4 font-serif italic text-zinc-600">
+            Su presencia ha quedado registrada en el expediente,{" "}
+            {registeredGuest.name}.
+          </p>
 
-        <div className="mt-6 flex flex-col gap-4 sm:flex-row">
-          <a
-            href={generateCalendarUrl(folioFormateado)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ variant: "outline" }),
-              "h-12 w-full rounded-none border-zinc-800 px-6 font-typewriter text-xs uppercase tracking-widest text-zinc-800 transition-all duration-500 hover:bg-zinc-800 hover:text-white"
-            )}
-          >
-            <CalendarPlus className="mr-2 h-4 w-4" />
-            Agendar en Calendar
-          </a>
-
-          <a
-            href={mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ variant: "secondary" }),
-              "h-12 w-full rounded-none px-6 font-typewriter text-xs uppercase tracking-widest transition-all duration-500"
-            )}
-          >
-            <MapPin className="mr-2 h-4 w-4" />
-            Ver Coordenadas
-          </a>
+          <div className="mt-6 w-full">
+            <Button
+              onClick={() => setTicketOpen(true)}
+              variant="outline"
+              className="h-12 w-full rounded-none border-zinc-800 px-6 font-typewriter text-xs uppercase tracking-widest text-zinc-800 transition-all duration-500 hover:bg-zinc-800 hover:text-white"
+            >
+              Ver mi entrada
+            </Button>
+          </div>
         </div>
-      </div>
+
+        <EventTicketModal
+          open={ticketOpen}
+          onOpenChange={setTicketOpen}
+          guestName={registeredGuest.name}
+          folioFormateado={folioFormateado}
+          calendarUrl={generateCalendarUrl(folioFormateado)}
+        />
+      </>
     );
   }
 
@@ -88,9 +85,7 @@ export function RSVPForm() {
       />
 
       {error && (
-        <p className="text-sm font-serif italic text-red-600">
-          ❌ {error}
-        </p>
+        <p className="text-sm font-serif italic text-red-600">❌ {error}</p>
       )}
 
       <Button

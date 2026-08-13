@@ -3,11 +3,12 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Countdown } from "@/components/landing/Countdown";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { InkParticles } from "@/components/landing/InkParticles";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, MapPin } from "lucide-react";
 import { RSVPForm } from "@/components/landing/RSVPForm";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 type Stage = "cover" | "approving" | "invitation";
 
@@ -219,13 +220,36 @@ export default function InvitationPage() {
                 <Countdown targetDate={partyDate} />
               </div>
 
-              <div className="mb-12 flex flex-col items-center gap-2">
-                <p className="font-typewriter text-lg uppercase tracking-widest text-zinc-800">
-                  Cochabamba, Bolivia
+              <div className="mb-12 flex flex-col items-center gap-4 text-center">
+                <div>
+                  <p className="font-typewriter text-lg uppercase tracking-widest text-zinc-800">
+                    Cochabamba, Bolivia
+                  </p>
+                  <p className="font-mono text-sm tracking-widest text-zinc-600">
+                    Zona Quintanilla Sud
+                  </p>
+                </div>
+                
+                <p className="max-w-sm font-serif text-base italic text-zinc-700">
+                  Te esperamos el 22/08/2026 a las 17:00
                 </p>
-                <p className="max-w-sm text-center font-serif text-sm italic text-zinc-600">
-                  (Las coordenadas exactas del departamento en Zona Quintanilla Sud se clasificarán en su folio al confirmar)
+
+                <p className="font-mono text-sm uppercase tracking-[0.2em] text-[#5C1F2E] font-bold">
+                  Código de vestimenta: BLACK
                 </p>
+
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=-17.3865841,-66.1192138"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    buttonVariants({ variant: "secondary" }),
+                    "mt-2 h-12 rounded-none border border-zinc-300 px-6 font-typewriter text-xs uppercase tracking-widest transition-all duration-500 hover:bg-zinc-200"
+                  )}
+                >
+                  <MapPin className="mr-2 h-4 w-4" />
+                  Ver Ubicación
+                </a>
               </div>
 
               <div className="mt-4 flex w-full flex-col items-center border-t border-zinc-300 pt-10">
