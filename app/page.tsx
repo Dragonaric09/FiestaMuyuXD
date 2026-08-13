@@ -6,6 +6,7 @@ import { Countdown } from "@/components/landing/Countdown";
 import { Button } from "@/components/ui/button";
 import { InkParticles } from "@/components/landing/InkParticles";
 import { Volume2, VolumeX } from "lucide-react";
+import { RSVPForm } from "@/components/landing/RSVPForm";
 
 export default function InvitationPage() {
   const [isOpened, setIsOpened] = useState(false);
@@ -160,9 +161,9 @@ export default function InvitationPage() {
             </div>
 
             <div className="mt-4 flex w-full flex-col items-center border-t border-zinc-300 pt-10">
-              <p className="mb-4 font-typewriter text-xs uppercase tracking-widest text-zinc-400">
-                [ Área reservada para RSVP Form ]
-              </p>
+              <div className="mb-4 font-typewriter text-xs uppercase tracking-widest text-zinc-400">
+                <RSVPForm />
+              </div>
             </div>
           </div>
         </motion.main>
