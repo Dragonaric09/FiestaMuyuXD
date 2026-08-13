@@ -2,6 +2,9 @@ import { getAllGuests, togglePaymentStatus } from "@/src/services/dashboard.serv
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PaymentToggle } from "./PaymentToggle";
+import { AutoRefresh } from "./AutoRefresh";
+
+export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const guests = await getAllGuests();
@@ -12,6 +15,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="paper-grain relative min-h-screen bg-[#E8E0CC] px-6 py-10 md:px-12">
+      <AutoRefresh intervalMs={10000} />
       <div className="mx-auto max-w-6xl">
         {/* Encabezado tipo carátula de expediente */}
         <div className="mb-10">
