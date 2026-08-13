@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { useGuest } from "@/hooks/useGuest";
+import { generateCalendarUrl, cn } from "@/lib/utils";
+import { CalendarPlus, MapPin } from "lucide-react";
+
+const mapsUrl = "https://www.google.com/maps/search/?api=1&query=-17.386160,-66.118604";
 
 export function RSVPForm() {
   const [name, setName] = useState("");
@@ -15,6 +19,7 @@ export function RSVPForm() {
   }
 
   if (registeredGuest) {
+    const folioFormateado = String(registeredGuest.id).padStart(4, "0");
     return (
       <div className="flex w-full max-w-sm flex-col items-center text-center">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500">
@@ -22,19 +27,40 @@ export function RSVPForm() {
         </span>
 
         <p className="mt-4 font-typewriter text-3xl uppercase tracking-widest text-zinc-900 md:text-4xl">
-          No. {String(registeredGuest.id).padStart(4, "0")}
+          No. {folioFormateado}
         </p>
 
         <p className="mt-4 font-serif italic text-zinc-600">
           Su presencia ha quedado registrada en el expediente, {registeredGuest.name}.
         </p>
 
-        <a
-          href="#"
-          className="mt-8 border border-zinc-800 px-6 py-3 font-typewriter text-xs uppercase tracking-widest text-zinc-800 transition-colors duration-500 hover:bg-zinc-800 hover:text-white"
-        >
-          Añadir a Google Calendar
-        </a>
+        <div className="mt-6 flex flex-col gap-4 sm:flex-row">
+          <a
+            href={generateCalendarUrl(folioFormateado)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              buttonVariants({ variant: "outline" }),
+              "h-12 w-full rounded-none border-zinc-800 px-6 font-typewriter text-xs uppercase tracking-widest text-zinc-800 transition-all duration-500 hover:bg-zinc-800 hover:text-white"
+            )}
+          >
+            <CalendarPlus className="mr-2 h-4 w-4" />
+            Agendar en Calendar
+          </a>
+
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              buttonVariants({ variant: "secondary" }),
+              "h-12 w-full rounded-none px-6 font-typewriter text-xs uppercase tracking-widest transition-all duration-500"
+            )}
+          >
+            <MapPin className="mr-2 h-4 w-4" />
+            Ver Coordenadas
+          </a>
+        </div>
       </div>
     );
   }
