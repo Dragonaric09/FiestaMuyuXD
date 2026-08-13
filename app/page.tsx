@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { InkParticles } from "@/components/landing/InkParticles";
 import { Volume2, VolumeX } from "lucide-react";
 import { RSVPForm } from "@/components/landing/RSVPForm";
+import Image from "next/image";
 
 type Stage = "cover" | "approving" | "invitation";
 
@@ -188,6 +189,31 @@ export default function InvitationPage() {
                 El departamento ha emitido una citación formal para el
                 cumpleaños de Muyu. Su presencia es requerida para la velada.
               </p>
+
+              {/* TTPD Styled Photo / Exhibit A */}
+              <div className="relative mb-16 flex flex-col items-center">
+                <div className="group relative rotate-2 bg-[#F8F5F0] p-3 pb-14 shadow-lg transition-all duration-700 hover:rotate-0 hover:scale-[1.02] md:p-4 md:pb-16">
+                  {/* Cinta adhesiva (Tape) simulada */}
+                  <div 
+                    className="absolute -top-4 left-1/2 z-10 h-8 w-24 -translate-x-1/2 -rotate-3 bg-white/60 shadow-sm backdrop-blur-md"
+                    style={{ clipPath: 'polygon(0 5%, 100% 0, 95% 95%, 5% 100%)' }}
+                  />
+                  
+                  <div className="relative aspect-square w-64 overflow-hidden border border-zinc-200/50 md:w-80">
+                    <Image
+                      src="/imagen1.png"
+                      alt="Archivo fotográfico clasificado"
+                      fill
+                      sizes="(max-width: 768px) 256px, 320px"
+                      className="object-cover grayscale sepia-[0.2] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 group-hover:sepia-0"
+                    />
+                  </div>
+                  
+                  <p className="absolute bottom-5 left-0 w-full text-center font-typewriter text-sm font-bold uppercase tracking-widest text-zinc-800 opacity-80">
+                    Exhibit A
+                  </p>
+                </div>
+              </div>
 
               <div className="mb-12 border border-zinc-300 bg-white/40 p-8 shadow-sm backdrop-blur-sm">
                 <Countdown targetDate={partyDate} />
