@@ -12,6 +12,7 @@ export async function registerGuest(name: string) {
     }
 
     console.log("🟡 Intentando registrar:", name);
+    console.log("🛠️ URL que Next.js está usando:", process.env.DATABASE_URL);
 
     const guest = await prisma.guest.create({
       data: {
